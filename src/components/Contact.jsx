@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const form = useRef();
+  const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,8 +13,35 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Message sent! (Note: This is a demo integration)');
-    setFormData({ name: '', email: '', message: '' });
+    setIsSending(true);
+
+    // Real IDs provided by user
+    const serviceID = 'service_kqxyeyh';
+    const templateID = 'template_pdtkwog';
+    const publicKey = 'yvqquVJy7F5sH8fAJ';
+
+    const params = {
+      from_name: formData.name,
+      reply_to: formData.email,
+      message: formData.message,
+    };
+
+    emailjs.send(serviceID, templateID, params, publicKey)
+      .then((result) => {
+          console.log('SUCCESS!', result.status, result.text);
+          alert('Success! I have received your message and will get back to you soon.');
+          setFormData({ name: '', email: '', message: '' });
+      }, (error) => {
+          console.error('FAILED...', error);
+          alert(`Error: ${error.text || 'Service ID not found'}. 
+Please make sure:
+1. Your Service ID (${serviceID}) is correct.
+2. Your Public Key is correct.
+3. Your Template ID is correct.`);
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   const handleChange = (e) => {
@@ -51,7 +81,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
+          <form ref={form} className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Your Name</label>
               <input 
@@ -85,7 +115,9 @@ const Contact = () => {
                 onChange={handleChange}
               ></textarea>
             </div>
-            <button type="submit" className="glow-btn" style={{ width: '100%' }}>Send Message</button>
+            <button type="submit" className="glow-btn" style={{ width: '100%' }} disabled={isSending}>
+              {isSending ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </div>
       </div>

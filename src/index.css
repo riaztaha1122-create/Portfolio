@@ -455,10 +455,11 @@ section {
 }
 
 .icon-inner {
-  width: 40%;
-  height: 40%;
-  background: rgba(255,255,255,0.1);
-  border-radius: 4px;
+  width: 60%;
+  height: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .skill-bar-wrapper {

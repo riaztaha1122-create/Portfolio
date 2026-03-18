@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/riaztaha1122-create/Portfolio#readme",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@vitejs/plugin-react": "^6.0.1",
     "framer-motion": "^12.38.0",
     "lucide-react": "^0.577.0",
