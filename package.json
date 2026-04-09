@@ -1,34 +1,13 @@
 {
-  "name": "portfolio",
+  "name": "portfolio-root",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "npm install --prefix frontend && npm install --prefix backend",
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "build": "npm run build --prefix frontend"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/riaztaha1122-create/Portfolio.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/riaztaha1122-create/Portfolio/issues"
-  },
-  "homepage": "https://github.com/riaztaha1122-create/Portfolio#readme",
-  "dependencies": {
-    "@emailjs/browser": "^4.4.1",
-    "@vitejs/plugin-react": "^6.0.1",
-    "framer-motion": "^12.38.0",
-    "lucide-react": "^0.577.0",
-    "openai": "^4.40.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "vite": "^8.0.0"
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

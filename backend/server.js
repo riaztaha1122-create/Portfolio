@@ -1,4 +1,15 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 import { OpenAI } from 'openai';
+
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
@@ -21,11 +32,7 @@ Rules:
 5. Emphasize that Taha can build any chatbot, website, android app, or scraper they might need.
 `;
 
-export default async function handler(req, res) {
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed' });
-    }
-
+app.post('/api/chat', async (req, res) => {
     try {
         const { messages } = req.body;
         
@@ -50,4 +57,8 @@ export default async function handler(req, res) {
         console.error("OpenAI API Error:", error);
         res.status(500).json({ error: 'Failed to communicate with AI' });
     }
-}
+});
+
+app.listen(port, () => {
+    console.log(`Backend server is running on port ${port}`);
+});
